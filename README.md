@@ -16,7 +16,7 @@ Download your kubeconfig from the Previder Portal by going into the details of y
 
 Open the downloaded file using your favorite notepad and add the following line at the top
 ```shell
-cat > ~/.kube/test << EOF
+cat > ~/.kube/config << EOF
 ```
 End add this as the last line
 ```shell
@@ -45,7 +45,7 @@ users:
   user:
     client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tL...
     client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSU...
-current-context: gijsmcluster-000005-admin@gijsmcluster-000005
+current-context: admin-name@clustername
 EOF
 ```
 ---
