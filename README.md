@@ -2,8 +2,7 @@
 ## Kubernetes Demo manifests
 This repo contains different example manifests to use on a Kubernetes cluster to get used to kubectl and helm.  
 Starting at 01 with deploying a simple app on the prepared systems which will become reachable on your VIP and dedicated port.  
-The further you progress, the more complex the solutions.  
-All example modules will expect you to have deleted the service or entire namespace as described at the end of each module.
+All modules can be completed without finishing the previous, but it is advised to clean up after each module as described on each page.
 
 ## Kubernetes resources
 Many of the resources used today are default Kubernetes Resources which are documented on the [Kubernetes docs](https://kubernetes.io/docs/concepts/)
@@ -15,16 +14,16 @@ Download your kubeconfig from the Previder Portal by going into the details of y
 ![](images/base_endpoints.png)
 
 Open the downloaded file using your favorite notepad and add the following line at the top
-```shell
+```console
 cat > ~/.kube/config << EOF
 ```
 End add this as the last line
-```shell
+```console
 EOF
 ```
 
 It should look like this, but the contents will differ:
-```shell
+```console
 cat > ~/.kube/config << EOF
 ---
 apiVersion: v1
@@ -50,17 +49,24 @@ EOF
 ```
 ---
 Execute the following command in your homedirectory of the server to create the base folder
-```shell
+```console
 mkdir ~/.kube
 ```
 ---
 Copy and paste the contents of the entire file including the commands we added and paste it into the server.  
 This will create the config file, check the creation of this file by executing the next command, it should output the contents of the file.
-```shell
+```console
 cat ~/.kube/config
 ```
-
+ 
+To secure your kubeconfig from others, execute the command:
+```console
+chmod 400 ~/.kube/config
+```
 
 # Modules
-- ## [01 deployment](01_deployment.md)
+- [01 - Deployment](01_deployment.md)
+- [02 - STaaS](02_staas.md)
+- [03 - SSL](03_ssl.md)
+- [04 - ArgoCD](04_argocd.md)
 
