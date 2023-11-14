@@ -36,12 +36,12 @@ kubectl create ns staas
 There are many different storage providers for Kubernetes. To use STaaS as dynamically as possible, we will be installing the [NFS subdir external provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) using Helm.  
 In the test setup a shared STaaS environment and volume has been made available for all members.  
   
-To to install the provisioner, execute the following commands:  
+To install the provisioner, execute the following commands:  
 ```shell
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
 ```
 Execute the following line as one command.  
-NFS is setup on IP address 172.16.0.20 and the name of the volume is "volume01"  
+NFS is set up at IP address 172.16.0.20 and the name of the volume is "volume01"  
 ```shell
 helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
     --namespace staas \
@@ -178,13 +178,13 @@ kind: Service
 metadata:
   name: wordpress-service
   labels:
-    app.kubenetes.io/name: wordpress-service
+    app.kubernetes.io/name: wordpress-service
 spec:
   ports:
     - port: 80
       nodePort: 32000
   selector:
-    app.kubenetes.io/name: wordpress-deployment
+    app.kubernetes.io/name: wordpress-deployment
   type: NodePort
 ---
 apiVersion: apps/v1
@@ -192,17 +192,17 @@ kind: Deployment
 metadata:
   name: wordpress-deployment
   labels:
-    app.kubenetes.io/name: wordpress-deployment
+    app.kubernetes.io/name: wordpress-deployment
 spec:
   selector:
     matchLabels:
-      app.kubenetes.io/name: wordpress-deployment
+      app.kubernetes.io/name: wordpress-deployment
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubenetes.io/name: wordpress-deployment
+        app.kubernetes.io/name: wordpress-deployment
     spec:
       containers:
       - image: wordpress:latest
@@ -226,16 +226,15 @@ kubectl -n staas apply -f  02_wordpress_deployment.yaml
 ```
 
 ## Check out the result
-You just deployed an empty Wordpress instance and exposed it on your cluster and VIP on port 32000.
+You just deployed an empty Wordpress instance and exposed it on your cluster and VIP on port your dedicated port.
 Check the connectivity of your VIP and cluster using the following command.
 ```console
-# Replace the IP with your dedicated cluster VIP
-curl http://172.16.0.50:32000
+curl http://<yourvip>:32000
 ```
 
-Open the url (http://cluster.kubernetes.at-previder.cloud:33000) and replace the port with your dedicated port to check out your new Wordpress instance.
+Open the url `http://cluster.kubernetes.at-previder.cloud:<yourport>` and replace the port with your dedicated port to check out your new Wordpress instance.
 
-**Important:** The instance is **NOT** secures with TLS/SSL! Do not send sensitive data you don't want roaming on the internet.  
+**Important:** The instance is **NOT** secured with TLS/SSL! Do not send sensitive data you don't want available on the internet.  
 TLS offloading will be handled in module [03 Ingress and SSL](03_ssl.md)
 
 ## Cleanup

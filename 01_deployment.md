@@ -91,7 +91,6 @@ This service will be exposed on a NodePort 32000 and link to the nginx-deploymen
 
 ```console
 cat > 01_service.yaml << EOF
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -123,10 +122,9 @@ kubectl -n nginx get svc nginx-service -o yaml
 You just deployed a basic Nginx server and exposed it on your cluster and VIP on port 32000.
 Check the connectivity of your VIP and cluster using the following command.
 ```console
-# Replace the IP with your dedicated cluster VIP
-curl http://172.16.0.50:32000
+curl http://<yourvip>:32000
 ```
-Open the url (http://cluster.kubernetes.at-previder.cloud:33000) and replace the port with your dedicated port to check out your Nginx test page!
+Open the url `http://cluster.kubernetes.at-previder.cloud:<yourport>` and replace the port with your dedicated port to check out your Nginx test page!
 
 ## Scaling
 Sometimes 1 pod will not do the job because of load or high-availability requirements.

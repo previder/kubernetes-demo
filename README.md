@@ -1,15 +1,21 @@
-# Kubernetes Demo
+# helm install previder-cluster 
 ## Kubernetes Demo manifests
 This repo contains different example manifests to use on a Kubernetes cluster to get used to kubectl and helm.  
-Starting at 01 with deploying a simple app on the prepared systems which will become reachable on your VIP and dedicated port.  
-All modules can be completed without finishing the previous, but it is advised to clean up after each module as described on each page.
+Starting with deploying a simple app on the prepared systems which will become reachable on your VIP and dedicated port.  
+All modules can be completed without finishing the previous, but it is advised to clean up after each module as described on each page.  
+The modules are not a competition, read well what it does before applying a manifest so possible variables are replaced before applying.
 
 ## Kubernetes resources
 Many of the resources used today are default Kubernetes Resources which are documented on the [Kubernetes docs](https://kubernetes.io/docs/concepts/)
 
 ## Prerequisites
-All module expect your cluster config setup on the ubuntu server. Kubectl and Helm have already been installed and prepared.  
-Download your kubeconfig from the Previder Portal by going into the details of your cluster in the list view and click on the Endpoints tab.
+All module expect your cluster config setup on the ubuntu server. Kubectl, Helm and JQ have already been installed and prepared.  
+Execute the following command in your home directory of the server to create the base folder.
+```console
+mkdir ~/.kube
+```
+---
+Download your kubeconfig from the [Previder Portal](https://portal.previder.nl/#/kubernetes/cluster) by going into the details of your cluster in the list view and click on the Endpoints tab.
 
 ![](images/base_endpoints.png)
 
@@ -47,12 +53,7 @@ users:
 current-context: admin-name@clustername
 EOF
 ```
----
-Execute the following command in your homedirectory of the server to create the base folder
-```console
-mkdir ~/.kube
-```
----
+
 Copy and paste the contents of the entire file including the commands we added and paste it into the server.  
 This will create the config file, check the creation of this file by executing the next command, it should output the contents of the file.
 ```console
@@ -64,9 +65,16 @@ To secure your kubeconfig from others, execute the command:
 chmod 400 ~/.kube/config
 ```
 
+# NAT and Firewalling
+In the test setup, you will receive your own VIP and assigned NAT port. All ports are NATted to port **32000** on your cluster.  
+Only when connecting to your cluster using your browser, you will need your assigned port.
+
+# Templates
+Some of the manifests contain a variable like `<yourusername>`,`<yourvip>` or `<yourport>`. Replace these before applying the manifest.
+With these entries it is easy to copy the manifest to a Notepad application first, replace the variables and then copy them into your terminal.
+
 # Modules
 - [01 - Deployment](01_deployment.md)
 - [02 - STaaS](02_staas.md)
 - [03 - SSL](03_ssl.md)
 - [04 - ArgoCD](04_argocd.md)
-
