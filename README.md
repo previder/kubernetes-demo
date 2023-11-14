@@ -1,15 +1,16 @@
 # helm install previder-cluster 
 ## Kubernetes Demo manifests
 This repo contains different example manifests to use on a Kubernetes cluster to get used to kubectl and helm.  
-Starting with deploying a simple app on the prepared systems which will become reachable on your VIP and dedicated port.  
-All modules can be completed without finishing the previous, but it is advised to clean up after each module as described on each page.  
+Starting with deploying a simple app on the prepared systems which will become reachable on your VIP and dedicated port.
+
+All modules can be completed without finishing the previous, but it is advised to clean up after each module as described on each page.
+
 The modules are not a competition, read well what it does before applying a manifest so possible variables are replaced before applying.
 
-## Kubernetes resources
-Many of the resources used today are default Kubernetes Resources which are documented on the [Kubernetes docs](https://kubernetes.io/docs/concepts/)
-
 ## Prerequisites
-All module expect your cluster config setup on the ubuntu server. Kubectl, Helm and JQ have already been installed and prepared.  
+All module expect your cluster config setup on the ubuntu server. Kubectl, Helm and JQ have already been installed and prepared.
+
+---
 Execute the following command in your home directory of the server to create the base folder.
 ```console
 mkdir ~/.kube
@@ -71,7 +72,11 @@ Only when connecting to your cluster using your browser, you will need your assi
 
 # Templates
 Some of the manifests contain a variable like `<yourusername>`,`<yourvip>` or `<yourport>`. Replace these before applying the manifest.
-With these entries it is easy to copy the manifest to a Notepad application first, replace the variables and then copy them into your terminal.
+These manifests are easiest to copy them into a Notepad application first, replace the variables and then copy them into your terminal.  
+**Do not use Word, or other "bigger" applications, they tend to mess up spaces, tabs and end-of-lines. Use Wordpad, Notepad, [Notepad++](https://notepad-plus-plus.org/downloads/v8.5.8/)**
+
+## Kubernetes resources
+Many of the resources used today are default Kubernetes Resources which are documented on the [Kubernetes docs](https://kubernetes.io/docs/concepts/)
 
 # Modules
 - [01 - Deployment](01_deployment.md)
