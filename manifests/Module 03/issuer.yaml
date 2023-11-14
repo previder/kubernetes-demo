@@ -1,0 +1,24 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    email: <youruser>@previder.nl
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-production-account-key
+    solvers:
+      - dns01:
+          webhook:
+            groupName: acme.zacharyseguin.ca
+            solverName: pdns
+            config:
+              host: https://portal.previder.nl
+              apiKeySecretRef:
+                name: previder-portal-api-key
+                key: key
+              apiKeyHeaderName: "X-Auth-Token"
+              serverID: "previder"
+              ttl: 300
+              timeout: 30
