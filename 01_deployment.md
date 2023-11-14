@@ -43,7 +43,7 @@ kubectl get ns nginx -o yaml
 ```
 
 ## Creating a deployment
-Create the deployment named "nginx-deployment"
+Create the deployment named "nginx-deployment". This will create 1 pod and makes sure there will always be 1 running.
 
 ```console
 cat > 01_deployment.yaml << EOF
@@ -116,12 +116,15 @@ Check the creation of the service by executing the following command:
 kubectl -n nginx get svc
 # The new service as yaml output
 kubectl -n nginx get svc nginx-service -o yaml
+# Describe the service in a readable format
+kubectl -n nginx describe svc nginx-service
 ```
 
 ## Check out the result
 You just deployed a basic Nginx server and exposed it on your cluster and VIP on port 32000.
 Check the connectivity of your VIP and cluster using the following command.
 ```console
+# Use HTTP here, not HTTPS!
 curl http://<yourvip>:32000
 ```
 Open the url `http://cluster.kubernetes.at-previder.cloud:<yourport>` and replace the port with your dedicated port to check out your Nginx test page!
@@ -140,8 +143,9 @@ kubectl -n nginx get pods
 ```
 Scale down to 0 and your test page should be offline. Try it out!
 
-### Manifest file
-Edit the manifest using "vi" and alter the "replicas" property up or down. Save the file and re-apply the file using the next command:
+### Manifest file (optional)
+Edit the manifest using "vi" and alter the "replicas" property up or down. Save the file and re-apply the file using the next command.  
+***Press `Insert` to start editing, press `Esc` and type `:wq` and press enter to save and quit vi***
 ```console
 kubectl -n nginx apply -f 01_deployment.yaml
 kubectl -n nginx get pods

@@ -199,9 +199,10 @@ helm install cert-manager jetstack/cert-manager \
   --set dns01RecursiveNameserversOnly=true
 ```
 Cert Manager already has ACME (LetsEncrypt) capabilities, but LetsEncrypt only allows validations over port 80, which is unavailable to us.  
-The [Previder Portal DNS API](https://portal.previder.nl/api-docs.html#/Domain%20DNS%20API) acts as a proxy to our PowerDNS servers and using any PowerDNS client, we can update the DNS for validation of the records.  
+The [Previder Portal DNS API](https://portal.previder.nl/api-docs.html#/Domain%20DNS%20API) acts as a proxy to our PowerDNS servers and using any PowerDNS client, we can update the DNS for validation of the records.
+---
 We will use the Cert Manager Webhook PDNS. Install it using the following helm commands.  
-Wait until all the Cert Manager pods are running before installing the webhook for PDNS.
+**Wait until all the Cert Manager pods are running before installing the webhook for PDNS.**
 ```shell
 kubectl -n cert-manager get pods 
 ```
@@ -230,7 +231,7 @@ helm uninstall --namespace cert-manager cert-manager-webhook-pdns cert-manager-w
 helm install --namespace cert-manager cert-manager-webhook-pdns cert-manager-webhook-pdns/cert-manager-webhook-pdns
 ```
 
-## create token for DNS
+## Create token for DNS
 To use the PDNS webhook we will need a token to authenticate from this addon to the Previder Portal.
 Go to your [User Settings](https://portal.previder.nl/#/user/current/properties) in the top-right menu and choose the tab "Tokens".  
 Create a new token and copy the secret.
@@ -260,7 +261,7 @@ data:
   key: `echo -n "42aeb9f3d44c8f4dd29f48d2b56a6ac4c4151532655271b7fbd801571c8c45af" | base64 | tr -d '\n'`
 EOF
 ```
-And we apply the manifest using the following command.
+Apply the manifest using the following command.
 ```shell
 kubectl -n ssl apply -f 03_token_secret.yaml
 ```
@@ -269,14 +270,14 @@ To check out the created secret, execute the following command.
 ```shell
 kubectl -n ssl get secret previder-portal-api-key -o yaml
 ```
-To check if the token is correct, execute the following chain command
+To check if the token is correctly inserted, execute the following chain command.
 ```shell
 kubectl -n ssl get secret previder-portal-api-key -o json | jq -r .data.key | base64 -d
 ```
 
 ## Create an issuer
 Using an Issuer we can make sure we use LetsEncrypt to give us a valid certificate.  
-This issuer is set up use the `dns01` solver. This will use the PDNS webhook as we installed before using the token we configure in the secret.
+This issuer is set up use the `dns01` [solver](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge). This will use the PDNS webhook as we installed before using the token we configured in the secret.
 Change the `<youruser>` variable to make it a valid email address.
 ```shell
 cat > 03_issuer.yaml << EOF
@@ -309,7 +310,7 @@ EOF
 ```shell
 kubectl -n ssl apply -f 03_issuer.yaml
 ```
-After creating this issuer, it should automatically start to validate the certificate at LetsEncrypt. To see if it is working, check out your certificate and logs of the pdns-webhook pod.
+After creating this issuer, it should automatically start to request and validate the certificate at LetsEncrypt. To see if it is working, check out your certificate and logs of the cert-manager and cert-manager-webhook-pdns pods.
 ```shell
 kubectl -n ssl get certificate
 ```
