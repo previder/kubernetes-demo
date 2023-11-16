@@ -229,7 +229,7 @@ kubectl -n staas apply -f  02_wordpress_deployment.yaml
 You just deployed an empty Wordpress instance and exposed it on your cluster and VIP on port your dedicated port.
 Check the connectivity of your VIP and cluster using the following command.
 ```console
-curl http://<yourvip>:32000
+wget -q http://<yourvip>:32000 -O -
 ```
 
 Open the url `http://cluster.kubernetes.at-previder.cloud:<yourport>` and replace the port with your dedicated port to check out your new Wordpress instance.
