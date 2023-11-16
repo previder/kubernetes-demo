@@ -92,7 +92,8 @@ kubectl -n staas describe pvc mariadb-pvc
 ```
 
 Because the storageClassName equals the name of the storage class we created earlier, the NFS provisioner automatically created a Persistent Volume and a Persistent Volume Claim.  
-The NFS share has also been mounted on the ubuntu server for debugging and learning purposes. Check out the folder /mnt/staas with the `ls` command and find your PVC folder.  
+
+As an example we have also mounted the STaaS volume on the ubuntu server for debugging and learning purposes. Check out the folder `/mnt/staas` with the `ls` command and find your PVC folder.  
 The default name format is: `${namespace}-${pvcName}-${pvName}`.
 
 ## Deployment
