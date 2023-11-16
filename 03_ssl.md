@@ -67,13 +67,15 @@ job.batch/ingress-nginx-admission-create created
 job.batch/ingress-nginx-admission-patch created
 ```
 
-After installing the controller, wait until all pods have the "Running" state.  Check out your services also, there should be an ingress-nginx NodePort service available.
+After installing the controller, wait until all pods have the `Running` state.  Check out your services also, there should be an ingress-nginx NodePort service available.  
+There will be 2 pods with the `Completed` state, those are one-time running pods and have completed successfully.
 ```shell
 kubectl -n ingress-nginx get pods
 kubectl -n ingress-nginx get svc
 ```
 As you have maybe seen, Kubernetes randomly assigned a node port to the service. We want to change it to your assigned port.  
-Using the following command, you will update your ingress-nginx service `https` port to port `32000`.
+Using the following command, you will update your ingress-nginx service `https` port to port `32000`.  
+The http port will not be used in this module, but can be used in production for SSL forwarding or automatic ACME validations.  
 ```shell
 kubectl patch svc -n ingress-nginx ingress-nginx-controller --type='json' -p='[{"op": "replace", "path": "/spec/ports/1/nodePort", "value": 32000}]'
 ```
@@ -180,6 +182,9 @@ kubectl -n ssl get ingress
 ```
 
 ## Checkout your ingress KuaR instances
+**From here all requests should use TLS/HTTPS, not plain HTTP url's**
+
+---
 Open the url `https://<yourusername>.kubernetes.at-previder.cloud:<yourport>` and replace the port with your dedicated port to check out your KuaR instances, refresh to see the default Kubernetes loadbalancer in action.  
 To see that the ingress is only forwarding your requested hostname, you can go to another subdomain like `https://notmyusername.kubernetes.at-previder.cloud:<yourport>` and you will see a 404 error.  
 You will still get a certificate invalid error. We will set up LetsEncrypt next.
@@ -197,8 +202,9 @@ helm install cert-manager jetstack/cert-manager \
   --create-namespace \
   --version v1.13.2 \
   --set installCRDs=true \
-  --set extraArgs='{--dns01-recursive-nameservers-only,--dns01-self-check-nameservers=80.65.96.50:53\,8.8.8.8:53}'
-```
+  --set dns01RecursiveNameservers="80.65.96.50:53" \
+  --set dns01RecursiveNameserversOnly=true
+  ```
 Cert Manager already has ACME (LetsEncrypt) capabilities, but LetsEncrypt only allows validations over port 80, which is unavailable to us.  
 The [Previder Portal DNS API](https://portal.previder.nl/api-docs.html#/Domain%20DNS%20API) acts as a proxy to our PowerDNS servers and using any PowerDNS client, we can update the DNS for validation of the records.
 
