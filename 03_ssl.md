@@ -193,7 +193,9 @@ You will still get a certificate invalid error. We will set up LetsEncrypt next.
 ## Install Cert Manager and the PDNS webhook 
 Secure SSL is a must nowadays, so we will set up our cluster to use LetsEncrypt to get a valid certificate for our domain.  
 We will acquire one using Cert Manager and an add-on to use DNS verification of the domain.  
-The following command will install Cert Manager into our cluster. After the installation we have some new resources available like Certificate and Issuer.
+The following command will install Cert Manager into our cluster. After the installation we have some new resources available like Certificate and Issuer.  
+**The install may take a few seconds (>10s)**
+
 ```shell
 helm repo add jetstack https://charts.jetstack.io
 
