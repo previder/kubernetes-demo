@@ -202,6 +202,7 @@ helm install cert-manager jetstack/cert-manager \
 ```
 Cert Manager already has ACME (LetsEncrypt) capabilities, but LetsEncrypt only allows validations over port 80, which is unavailable to us.  
 The [Previder Portal DNS API](https://portal.previder.nl/api-docs.html#/Domain%20DNS%20API) acts as a proxy to our PowerDNS servers and using any PowerDNS client, we can update the DNS for validation of the records.
+
 ---
 We will use the Cert Manager Webhook PDNS. Install it using the following helm commands.  
 **Wait until all the Cert Manager pods are running before installing the webhook for PDNS.**
@@ -317,7 +318,9 @@ After creating this issuer, it should automatically start to request and validat
 kubectl -n ssl get certificate
 ```
 When the certificate get the `Ready` state to `True`, it has been applied and used in the Ingress Controller.  
-If your certificate does not get the Ready state, use the describe command to see more details.
+If your certificate does not get the Ready state, use the describe command to see more details.  
+The verification process can take a few minutes, when the command above shows `Ready True`, you can continue and the certificate has been applied to the Ingress Route.
+
 ```shell
 kubectl -n ssl describe certificate kuard-ingress-tls
 ```
