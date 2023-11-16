@@ -197,8 +197,7 @@ helm install cert-manager jetstack/cert-manager \
   --create-namespace \
   --version v1.13.2 \
   --set installCRDs=true \
-  --set dns01RecursiveNameservers="80.65.96.50:53" \
-  --set dns01RecursiveNameserversOnly=true
+  --set extraArgs='{--dns01-recursive-nameservers-only,--dns01-self-check-nameservers=80.65.96.50:53\,8.8.8.8:53}'
 ```
 Cert Manager already has ACME (LetsEncrypt) capabilities, but LetsEncrypt only allows validations over port 80, which is unavailable to us.  
 The [Previder Portal DNS API](https://portal.previder.nl/api-docs.html#/Domain%20DNS%20API) acts as a proxy to our PowerDNS servers and using any PowerDNS client, we can update the DNS for validation of the records.
