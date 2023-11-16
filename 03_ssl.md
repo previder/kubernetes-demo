@@ -190,6 +190,8 @@ Secure SSL is a must nowadays, so we will set up our cluster to use LetsEncrypt 
 We will acquire one using Cert Manager and an add-on to use DNS verification of the domain.  
 The following command will install Cert Manager into our cluster. After the installation we have some new resources available like Certificate and Issuer.
 ```shell
+helm repo add jetstack https://charts.jetstack.io
+
 helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
