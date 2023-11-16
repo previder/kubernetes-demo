@@ -340,5 +340,5 @@ kubectl delete ns ssl
 # Remove Ingress Controller
 kubectl delete ns ingress-nginx
 # Remove Cert Manager
-kubectl delete ns cert-manager
+helm uninstall cert-manager --namespace cert-manager
 ```
