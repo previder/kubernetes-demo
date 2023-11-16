@@ -8,7 +8,8 @@ All modules can be completed without finishing the previous, but it is advised t
 The modules are not a competition, read well what it does before applying a manifest so possible variables are replaced before applying.
 
 ## Prerequisites
-All module expect your cluster config setup on the ubuntu server. Kubectl, Helm and JQ have already been installed and prepared.
+All module expect your cluster config setup on the ubuntu server. Kubectl, Helm and JQ have already been installed and prepared.  
+Every command should be executed from the startup server prepared for this demo. You do not need to SSH into your cluster.  
 
 ---
 Execute the following command in your home directory of the server to create the base folder.
